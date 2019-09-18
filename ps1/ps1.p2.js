@@ -11,17 +11,20 @@
 // console.log(`${expression} = ${operator(expression)}`)
 
 const evaluate = expr => {
+    const left = parseInt(expr.split('')[0]);
     const operand = expr.split('')[1];
+    const right = parseInt(expr.split('')[2]);
+    
     if (operand == "%") {
-        return parseInt(expr.split('')[0]) % parseInt(expr.split('')[2]);
+        return left % right;
     } else if (operand == "+") {
-        return parseInt(expr.split('')[0]) + parseInt(expr.split('')[2]);
+        return left + right;
     } else if (operand == "-") {
-        return parseInt(expr.split('')[0]) - parseInt(expr.split('')[2]);
+        return left - right;
     } else if (operand == "*") {
-        return parseInt(expr.split('')[0]) * parseInt(expr.split('')[2]);
+        return left * right;
     } else if (operand == "/") {
-        return parseInt(expr.split('')[0]) / parseInt(expr.split('')[2]);
+        return left / right;
     }
 };
 
