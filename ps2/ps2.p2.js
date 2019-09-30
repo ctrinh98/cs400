@@ -5,7 +5,7 @@
 // email: ctrinh@bu.edu
 //
 
-//  Generator initialized with a sentence that emits each word of the sentence in turn
+// Generator initialized with a sentence that emits each word of the sentence in turn
 const sentenceGen = function* (sentence) {
     const senList = sentence.split(" ");
 
@@ -14,6 +14,7 @@ const sentenceGen = function* (sentence) {
     }
 }
 
+// Prints words, one per line, of the string “All I know is something like a bird within her sang”
 for (const res of sentenceGen("All I know is something like a bird within her sang")) {
     console.log(res);
 }

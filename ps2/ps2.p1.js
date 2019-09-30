@@ -5,6 +5,7 @@
 // email: ctrinh@bu.edu
 //
 
+// Generator returning the series of Fibonacci numbers starting from 0
 const fibGen = function* () {
     let first = 1;
     let second = 1;
@@ -21,19 +22,21 @@ const fibGen = function* () {
     }
 }
 
+// Generator using fibGen to obtain the next number in the Fibonacci sequence;
+// once an even Fibonacci number is obtained, it is emitted
 const evenFibGen = function* (count) {
-    const fibGenCall = fibGen();
-    // let res = new Array();
-    for (var num = 0; num < count; num++) {
-        let numNow = fibGenCall.next().value;
-        if (numNow % 2 === 0) {
-            yield numNow;
+    fibGenCall = fibGen();
+    let countTime = 0;
+    while (countTime < count) {
+        let numNew = fibGenCall.next().value;
+        if (numNew % 2 === 0) {
+            yield numNew;
+            countTime++;
         }
     }
-
 }
 
-
+// Uses generators to print out the first 6 even Fibonacci numbers
 let testCount = 6;
 res = evenFibGen(testCount);
 while (testCount --> 0) {
