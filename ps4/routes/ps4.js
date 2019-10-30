@@ -4,6 +4,7 @@ const request = require('request');
 let pikachu;
 const apiUrl = 'https://pokeapi.co/api/v2/pokemon/pikachu';
 
+/* Make request to external PokéAPI. */
 request('https://pokeapi.co/api/v2/pokemon/pikachu', function (err, res, body) {
     console.log('error:', err);
     console.log('statusCode:', res && res.statusCode);
