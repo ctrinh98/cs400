@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+  body
+    form(action='/ps4d', method='POST')
+      p
+        | pokemon_name:
+        input(type='text', name='pokemon_name', value='')
+      input(type='submit', value='Submit')
