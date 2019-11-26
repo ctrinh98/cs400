@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+  body
+    form(action='/ps6d', method='POST')
+      p
+        | Please enter the name of the Pokémon to look them up.
+        input(type='text', name='pokemon_name', value='')
+      input(type='submit', value='Submit')
+    //a(href="request")
+    //  button(type="button") go to '/request'
