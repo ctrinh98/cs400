@@ -4,8 +4,10 @@ block content
   h1= title
   p Welcome to #{title}
   body
-    form(action='/ps4d', method='POST')
+    form(action='/ps6d', method='POST')
       p
-        | pokemon_name:
+        | Please enter the name of the Pokémon to look them up.
         input(type='text', name='pokemon_name', value='')
       input(type='submit', value='Submit')
+    //a(href="request")
+    //  button(type="button") go to '/request'
