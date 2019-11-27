@@ -7,6 +7,14 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/ps6d', function(req,res){
+  console.log('req = ' + req.body.pokemon_name);
+  if (req.body.pokemon_name == "") {
+    res.render('error', {
+      message: '404: Blank name submitted.',
+      subtitle: 'Please enter a name.'
+    });
+  }
+
   console.log(req.body);
   // console.log('please redirect');
   var string = encodeURIComponent(req.body.pokemon_name);

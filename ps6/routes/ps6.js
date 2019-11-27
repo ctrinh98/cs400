@@ -9,6 +9,16 @@ let passedVariable;
 let reqUrl;
 const apiUrl = 'https://pokeapi.co/api/v2/pokemon/pikachu';
 
+db.connect((err, client) => {
+    if (err) {
+        console.log(`ERR: ${err}`);
+    } else {
+        console.log(`Connected`);
+    }
+});
+
+
+
 /* GET ps6 Pikachu page. */
 router.get('/', function(req, res, next) {
     passedVariable = req.query.name;
@@ -19,28 +29,62 @@ router.get('/', function(req, res, next) {
 
     // makeRequest(reqUrl, renderRequest, this.res);
 
-    fetchData(reqUrl).then(fetchResponse => {
-        if (fetchResponse == 404) {
-            console.log('oh no its a 404');
-            res.render('error', {
-                message: '404: Pokémon not found.',
-                subtitle: 'Please check your spelling.'
+    let mongo = db.getDB();
+    mongo.collection('pokemon').find({name: passedVariable}).
+    toArray(function(err, docs) {
+        console.log("checking collection");
+        console.log(docs);
+        console.log(typeof docs);
+        if (docs.length) {
+            console.log('not empty collection');
+            // console.log(docs[0].imageUrl);
+            res.render('ps6', {
+                title: "Pokémon Details",
+                name: docs[0].name,
+                imageUrl: docs[0].imageUrl,
+                ability: docs[0].ability,
+                apiUrl: reqUrl,
+                cache: true
             });
-            return;
+        } else {
+            console.log('empty collection');
+            fetchData(reqUrl).then(fetchResponse => {
+                if (fetchResponse == 404) {
+                    console.log('oh no its a 404');
+                    res.render('error', {
+                        message: '404: Pokémon not found.',
+                        subtitle: 'Please check your spelling.'
+                    });
+                    return;
+                }
+                pikachu = fetchResponse;
+                console.log("pikachuFetchResponse = " + pikachu);
+                console.log(pikachu.name);
+                console.log(pikachu.imageUrl);
+                const sendToDb = {
+                    name: pikachu.name,
+                    imageUrl: pikachu.sprites.front_default,
+                    ability: pikachu.abilities[0].ability.name,
+                };
+                mongo.collection('pokemon').insertOne(sendToDb, function (err, r) {
+                    // res.send('success');
+                    console.log("database entry added successfully");
+                });
+                res.render('ps6', {
+                    title: "Pokémon Details",
+                    name: pikachu.name,
+                    imageUrl: pikachu.sprites.front_default,
+                    ability: pikachu.abilities[0].ability.name,
+                    apiUrl: reqUrl,
+                    cache: false,
+                });
+            });
+            console.log('pikachu = ' + pikachu);
         }
-        pikachu = fetchResponse;
-        console.log("pikachuFetchResponse = " + pikachu);
-        console.log(pikachu.name);
-        console.log(pikachu.imageUrl);
-        res.render('ps6', {
-            title: "Pokémon Details",
-            name: pikachu.name,
-            imageUrl: pikachu.sprites.front_default,
-            ability: pikachu.abilities[0].ability.name,
-            apiUrl: reqUrl
-        });
+        // res.send(docs);
     });
-    console.log('pikachu = ' + pikachu);
+
+
 
     // makeRequest(reqUrl).then(r => {
     //     console.log("r = " + r.name)
@@ -112,15 +156,6 @@ async function makeRequest(reqUrl) {
 //     // callback();
 // }
 
-
-// db.connect((err, client) => {
-//     if (err) {
-//         console.log(`ERR: ${err}`);
-//     } else {
-//         console.log(`Connected`);
-//     }
-// });
-
 // router.get('/', function(req, res) {
 //     var passedVariable = req.query.name;
 //     console.log('irhgirhgoi');
@@ -131,7 +166,7 @@ async function makeRequest(reqUrl) {
 router.get('/bare', function (req, res, next)  {
 
     let mongo = db.getDB();
-    mongo.collection('help').find().
+    mongo.collection('pokemon').find().
     toArray(function(err, docs) {
         console.log(docs)
         res.send(docs);
