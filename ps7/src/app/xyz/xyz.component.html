@@ -1,0 +1,19 @@
+<form [formGroup]="contactFormGroup" (ngSubmit)="onSubmit()">
+
+  <label>Name:
+    <input type="text" formControlName="name" >
+  </label>
+
+  <button type="submit" >Submit</button>
+
+  <div *ngIf="contactFormGroup.get('name').errors">
+    Name is required and must be longer than 1 character.
+  </div>
+</form>
+
+
+Value: {{contactFormGroup.controls['name'].value}}<br/>
+
+<button type="button" (click)="onPress()">Check Pokemon</button>
+
+<!--<p>xyz works!</p>-->
