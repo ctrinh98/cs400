@@ -1,3 +1,5 @@
+const cors = require('cors');
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -10,6 +12,8 @@ const ps6Router = require('./routes/ps6');
 const requestRouter = require('./routes/request');
 
 var app = express();
+
+app.use(cors());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

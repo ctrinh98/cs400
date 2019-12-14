@@ -20,9 +20,9 @@ export class PkmnService {
 
   pkmnUrl = 'http://localhost:3000/ps6?name=pikachu';
 
-  getPkmn(url) {
-    console.log('help me:', this.http.get(url));
-    return this.http.get(url);
+  getPkmn(url): Observable<Pkmn[]> {
+    console.log('help me:', this.http.get<Pkmn[]>(url));
+    return this.http.get<Pkmn[]>(url);
     // return this.http.get<Pkmn>(this.pkmnUrl);
   }
 

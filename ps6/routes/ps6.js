@@ -17,6 +17,12 @@ db.connect((err, client) => {
     }
 });
 
+/* Set up CORS request. */
+router.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "http://localhost:4200"); // update to match the domain you will make the request from
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
 
 
 /* GET ps6 Pikachu page. */
@@ -38,20 +44,48 @@ router.get('/', function(req, res, next) {
         if (docs.length) {
             console.log('not empty collection');
             // console.log(docs[0].imageUrl);
-            res.render('ps6', {
+            res.send([{
                 title: "Pokémon Details",
                 name: docs[0].name,
                 imageUrl: docs[0].imageUrl,
                 ability: docs[0].ability,
                 apiUrl: reqUrl,
                 cache: true
-            });
+            },{
+                title: "Pokémon Details",
+                name: docs[0].name,
+                imageUrl: docs[0].imageUrl,
+                ability: docs[0].ability,
+                apiUrl: reqUrl,
+                cache: true
+            },{
+                title: "Pokémon Details",
+                name: docs[0].name,
+                imageUrl: docs[0].imageUrl,
+                ability: docs[0].ability,
+                apiUrl: reqUrl,
+                cache: true
+            },{
+                title: "Pokémon Details",
+                name: docs[0].name,
+                imageUrl: docs[0].imageUrl,
+                ability: docs[0].ability,
+                apiUrl: reqUrl,
+                cache: true
+            },{
+                title: "Pokémon Details",
+                name: docs[0].name,
+                imageUrl: docs[0].imageUrl,
+                ability: docs[0].ability,
+                apiUrl: reqUrl,
+                cache: true
+            }]);
         } else {
             console.log('empty collection');
             fetchData(reqUrl).then(fetchResponse => {
                 if (fetchResponse == 404) {
                     console.log('oh no its a 404');
-                    res.render('error', {
+                    res.send({
                         message: '404: Pokémon not found.',
                         subtitle: 'Please check your spelling.'
                     });
@@ -70,14 +104,28 @@ router.get('/', function(req, res, next) {
                     // res.send('success');
                     console.log("database entry added successfully");
                 });
-                res.render('ps6', {
+                res.send([{
                     title: "Pokémon Details",
                     name: pikachu.name,
                     imageUrl: pikachu.sprites.front_default,
                     ability: pikachu.abilities[0].ability.name,
                     apiUrl: reqUrl,
                     cache: false,
-                });
+                },{
+                    title: "Pokémon Details",
+                    name: pikachu.name,
+                    imageUrl: pikachu.sprites.front_default,
+                    ability: pikachu.abilities[0].ability.name,
+                    apiUrl: reqUrl,
+                    cache: false,
+                },{
+                    title: "Pokémon Details",
+                    name: pikachu.name,
+                    imageUrl: pikachu.sprites.front_default,
+                    ability: pikachu.abilities[0].ability.name,
+                    apiUrl: reqUrl,
+                    cache: false,
+                }]);
             });
             console.log('pikachu = ' + pikachu);
         }

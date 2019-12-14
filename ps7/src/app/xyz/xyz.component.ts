@@ -25,7 +25,11 @@ import {Pkmn, PkmnService} from '../pkmn.service';
 
       <button type="button" (click)="onPress()">Check Pokemon</button>
 
-      <app-xyz-child [pkmnJson]="pkmn"></app-xyz-child>
+      <app-xyz-child *ngFor="let pkmnJson of pkmn"
+              [pkmnJson]="pkmnJson"
+      >
+          
+      </app-xyz-child>
 <!--      <app-hero-child *ngFor="let hero of heroes"-->
 <!--                      [hero]="hero"-->
 <!--                      [master]="master">-->
@@ -34,7 +38,7 @@ import {Pkmn, PkmnService} from '../pkmn.service';
 })
 export class XyzComponent implements OnInit {
 
-  pkmn: Pkmn;
+  pkmn: Pkmn[];
   error: any;
   baseUrl = 'http://localhost:3000/ps6?name=';
 
@@ -67,7 +71,7 @@ export class XyzComponent implements OnInit {
   showConfig(url: string) {
     this.pkmnService.getPkmn(url)
       .subscribe(
-        (data: Pkmn) => this.pkmn = { ...data }, // success path
+        (data: Pkmn[]) => this.pkmn = data, // success path
         error => this.error = error // error path
       );
     // console.log(this.pkmn);
